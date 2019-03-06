@@ -4,6 +4,18 @@ class RepositoriesController < ApplicationController
     @repos = get_repos
   end
 
+  def create
+    repo_name = params[:name]
+
+    response = Faraday.post "https://api.github.com/user/repos" do |req|
+      req.body = { 'name': repo_name }.to_json
+      req.headers['Authorization'] = "token #{session[:token]}"
+      req.headers['Accept'] = 'application/json'
+    end
+
+    redirect_to root_path
+  end
+
   private
 
   def get_username
@@ -18,6 +30,7 @@ class RepositoriesController < ApplicationController
 
   def get_repos
     repo_info = Faraday.get "https://api.github.com/user/repos" do |req|
+      req.body = { 'sort': 'created', 'direction': 'asc' }
       req.headers['Authorization'] = "token #{session[:token]}"
       req.headers['Accept'] = 'application/json'
     end
