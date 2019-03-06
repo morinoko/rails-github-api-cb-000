@@ -13,7 +13,7 @@ class RepositoriesController < ApplicationController
       req.headers['Accept'] = 'application/json'
     end
 
-    redirect_to root
+    redirect_to root_path
   end
 
   private
