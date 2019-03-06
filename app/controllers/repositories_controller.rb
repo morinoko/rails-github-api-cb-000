@@ -30,7 +30,7 @@ class RepositoriesController < ApplicationController
 
   def get_repos
     repo_info = Faraday.get "https://api.github.com/user/repos" do |req|
-      req.body = { 'sort': 'created', 'direction': 'asc' }
+      req.body = { 'sort': 'created', 'direction': 'asc' }.to_json
       req.headers['Authorization'] = "token #{session[:token]}"
       req.headers['Accept'] = 'application/json'
     end
